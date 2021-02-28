@@ -23,6 +23,8 @@ function initMap() {
 
   // Set the initial Street View camera to the center of the map
   sv.getPanorama({ location: location, radius: 50 }, processSVData);
+
+  //Cool Comment
 }
 
 // Updates the pre-existing panorama with new StreetView data. Specfically, a new position.
