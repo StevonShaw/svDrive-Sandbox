@@ -33,6 +33,14 @@ function setNewPano(position) {
   sv.getPanorama({ location: position, radius: 50 }, processSVData);
 }
 
+// Same as setNewPano but takes data from the form
+function setNewPanoForm(){
+  const sv = new google.maps.StreetViewService();
+  lata = parseFloat(document.getElementById("lat").value);
+  long = parseFloat(document.getElementById("lng").value);
+  sv.getPanorama({location: {lat: lata, lng: long}, radius: 50}, processSVData);
+}
+
 // The callback being provided. Essentially, 'what to do' after the panorama data get's fetched.
 function processSVData(data, status) {
   if (status === "OK") {
