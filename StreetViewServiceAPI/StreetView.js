@@ -10,10 +10,16 @@
 
 let panorama;
 let panoDiv = document.getElementById("pano");
+var haveEvents = 'GamepadEvent' in window;
+var haveWebkitEvents = 'WebKitGamepadEvent' in window;
+var controllers = {};
+var rAF = window.mozRequestAnimationFrame ||
+  window.webkitRequestAnimationFrame ||
+  window.requestAnimationFrame;
 
 function initMap() {
   const location = { lat: 45.5098, lng: -122.6805 }; //PSU, Fourth Ave Building
-  //const location = { lat: 37.869085, lng: -122.254775 }; //berkeley
+  const location_new = { lat: 37.869085, lng: -122.254775 }; //berkeley
 
   //The built-in Street View experience based on the Street View Pegman control, and the StreetViewService, are not billed.
   const sv = new google.maps.StreetViewService();
@@ -23,6 +29,8 @@ function initMap() {
 
   // Set the initial Street View camera to the center of the map
   sv.getPanorama({ location: location, radius: 50 }, processSVData);
+
+  sv.getPanorama({location:location_new,radius:50},processSVData)
 }
 
 // Updates the pre-existing panorama with new StreetView data. Specfically, a new position.
@@ -41,4 +49,23 @@ function processSVData(data, status) {
   } else {
     console.error("Street View data not found for this location.");
   }
+}
+
+function scangamepads() {
+  var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
+  for (var i = 0; i < gamepads.length; i++) {
+    if (gamepads[i] && (gamepads[i].index in controllers)) {
+      controllers[gamepads[i].index] = gamepads[i];
+    }
+  }
+}
+
+if (haveEvents) {
+  window.addEventListener("gamepadconnected", connecthandler);
+  window.addEventListener("gamepaddisconnected", disconnecthandler);
+} else if (haveWebkitEvents) {
+  window.addEventListener("webkitgamepadconnected", connecthandler);
+  window.addEventListener("webkitgamepaddisconnected", disconnecthandler);
+} else {
+  setInterval(scangamepads, 500);
 }
