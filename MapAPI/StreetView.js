@@ -1,18 +1,21 @@
 // Demo Taken from Google Map API Documentation.
 // Demonstrates the instatiation of a Map, and a StreetView panorama.
+
 let map;
 let panorama;
 let panoDiv = document.getElementById("pano");
 let mapDiv = document.getElementById("map");
 
 function initMap() {
-  const berkeley = { lat: 37.869085, lng: -122.254775 };
+  // const berkeley = { lat: 37.869085, lng: -122.254775 };
+  const tabor = { lat: 45.4633146, lng: -122.6493157}
   const sv = new google.maps.StreetViewService();
   panorama = new google.maps.StreetViewPanorama(panoDiv);
 
   // Set up options for the map.
   let mapOptions = {
-    center: berkeley,
+    // center: berkeley,
+    center: tabor,
     zoom: 16,
     streetViewControl: false,
   };
@@ -21,7 +24,7 @@ function initMap() {
   map = new google.maps.Map(mapDiv, mapOptions);
 
   // Set the initial Street View camera to the center of the map
-  sv.getPanorama({ location: berkeley, radius: 50 }, processSVData);
+  sv.getPanorama({ location: tabor, radius: 50 }, processSVData);
 
   // Look for a nearby Street View panorama when the map is clicked.
   // getPanorama will return the nearest pano when the given
