@@ -4,48 +4,23 @@
 <meta charset="utf-8">
 <script type="text/javascript" src="defaultschema.js"></script>
 <style>
-.axes {
-  padding: 1em;
-}
-
-.buttons {
-  margin-left: 1em;
-}
-
-/*meter*/.axis {
-  min-width: 200px;
-  margin: 1em;
-}
-
-.button {
-  display: inline-block;
-  width: 1em;
-  text-align: center;
-  padding: 1em;
-  border-radius: 20px;
-  border: 1px solid black;
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYPjPAAACAgEAqiqeJwAAAABJRU5ErkJggg==);
-  background-size: 0% 0%;
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-}
-
-.pressed {
-  border: 1px solid red;
-}
-
-.touched::after {
-  content: "touch";
-  display: block;
-  position: absolute;
-  margin-top: -0.2em;
-  margin-left: -0.5em;
-  font-size: 0.8em;
-  opacity: 0.7;
+#ball {
+        width: 40px;
+        height: 40px;
+        border-radius: 20px;
+        background-color: red;
+        background-image: -webkit-radial-gradient(40% 40%, circle, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4));;
+        background-image: -moz-radial-gradient(40% 40%, circle, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4));;
+        background-image: -ms-radial-gradient(40% 40%, circle, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4));;
+        background-image: radial-gradient(circle at 40% 40%, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4));
+		position: relative;
 }
 </style>
 </head>
 <body>
-<h2 id="start">Index</h2>
+<h2 id="start">Index,Press any botton to start.</h2>
+<div id="ball"></div>
+<button onclick="setFlag(1)">Click To Use Blinding 1</button>
+<button onclick="setFlag(2)">Click To Use Blinding 2</button>
 </body>
 </html>

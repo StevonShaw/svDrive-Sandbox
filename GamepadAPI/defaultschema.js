@@ -1,12 +1,18 @@
+
 var haveEvents = 'GamepadEvent' in window;
 var haveWebkitEvents = 'WebKitGamepadEvent' in window;
 var controllers = {};
 var rAF = window.mozRequestAnimationFrame ||
   window.webkitRequestAnimationFrame ||
   window.requestAnimationFrame;
-var flag=true
+var flag=0;
+var x=0;
+var y=0;
 function connecthandler(e) {
   addgamepad(e.gamepad);
+}
+function setFlag(v){
+	defaultschema(v);
 }
 function addgamepad(gamepad) {
   controllers[gamepad.index] = gamepad; var d = document.createElement("div"); var brandid=gamepad.id;
@@ -26,15 +32,30 @@ function addgamepad(gamepad) {
   document.getElementById("start").style.display = "none";
   document.body.appendChild(d);
   rAF(updateStatus);
- 
 }
-function defaultschema(){
-	var r=confirm("Do you wanna use the default schema?");
-	if(r){
-		console.log("User choose to use the default schema.");
-	}else{
-		confirm.log("User does not choose to use the default schema.");
+function defaultschema(v){
+	
+	if(v==1){
+		var r=confirm("Do you wanna use the scheme "+flag+" ?"+"Y:up,A:down,X:left,Y:right");
+		if(r){
+			console.log("User choose to use the scheme 1.");
+			flag=1;
+		}else{
+			console.log("User does not choose to use the scheme 1.");
+			rAF(updateStatus);
+		}
+	}else
+	if(v==2){
+		var r=confirm("Do you wanna use the scheme "+flag+" ?"+"⬆:up,⬇:down,⬅:left,➡:right");
+		if(r){
+			console.log("User choose to use the scheme 2.");
+			flag=2;
+		}else{
+			console.log("User does not choose to use the scheme 2.");
+			rAF(updateStatus);
+		}
 	}
+	
 }
 function disconnecthandler(e) {
   removegamepad(e.gamepad);
@@ -62,15 +83,68 @@ function updateStatus() {
         }
         val = val.value;
       }
-    
-	  if(i==9&&(pressed||touched)){
-		document.getElementById("start").style.display = "none";
-	  	document.getElementById("controller0").style.display = "block";
-	  	defaultschema();	
+	  if(flag==0){
+		console.log("flag=0,user have not chose the scheme.");
+		if(i==9&&(pressed||touched)){
+			document.getElementById("start").style.display = "none";
+			document.getElementById("controller0").style.display = "block";
+		}
+		if(i==8&&(pressed||touched)){
+			document.getElementById("start").style.display = "block";
+			document.getElementById("controller0").style.display = "none";
+		}
+	  }else
+	  if(flag==1){
+		console.log("flag=1,user choosed the default scheme.");
+		if(i==9&&(pressed||touched)){
+			document.getElementById("start").style.display = "none";
+			document.getElementById("controller0").style.display = "block";
+		}
+		if(i==8&&(pressed||touched)){
+			document.getElementById("start").style.display = "block";
+			document.getElementById("controller0").style.display = "none";
+		}
+		if(i==3&&(pressed||touched)){
+			y++;
+		}else
+		if(i==0&&(pressed||touched)){
+			y--;
+		}else
+		if(i==1&&(pressed||touched)){
+			x++;
+		}else
+		if(i==2&&(pressed||touched)){
+			x--;
+		}  
+	  }else
+	  if(flag==2){
+		console.log("flag=2,user choosed the 1 scheme.");
+		if(i==9&&(pressed||touched)){
+			document.getElementById("start").style.display = "none";
+			document.getElementById("controller0").style.display = "block";
+		}
+		if(i==8&&(pressed||touched)){
+			document.getElementById("start").style.display = "block";
+			document.getElementById("controller0").style.display = "none";
+		}
+		if(i==12&&(pressed||touched)){
+			y++;
+		}else
+		if(i==13&&(pressed||touched)){
+			y--;
+		}else
+		if(i==15&&(pressed||touched)){
+			x++;
+		}else
+		if(i==14&&(pressed||touched)){
+			x--;
+		}  
 	  }
 	  
+	  
     }
-	
+	ball.style.left = x*2 + "px";
+	ball.style.top = y*2 + "px";
   }
   rAF(updateStatus);
 }
